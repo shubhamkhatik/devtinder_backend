@@ -1,15 +1,23 @@
 const express = require("express");
 const app = express();
+const connectDB = require("./config/database");
+const PORT=process.env.PORT;
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const authRouter = require("./routes/auth");
 
-app.use("/", (req, res,next) => {
-  console.log("hello");
-  next();
-});
-app.use("/2", (req, res) => {
-  console.log("hello222");
-  res.send("hello222");
-});
 
-app.listen(4545, () => {
-  console.log("Server is successfully listening on port 4545...");
-});
+app.use(express.json());
+app.use(cookieParser());
+
+app.use("/api", authRouter);
+connectDB()
+  .then(() => {
+    console.log("Database connection established...");
+    app.listen(PORT, () => {
+      console.log("Server is successfully listening on port..."+PORT);
+    });
+  })
+  .catch((err) => {
+    console.error("Database cannot be connected!!");
+  });
