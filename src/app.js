@@ -5,12 +5,14 @@ const PORT=process.env.PORT;
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const authRouter = require("./routes/auth");
+const profileRouter = require("./routes/profile");
 
 
 app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api", authRouter);
+app.use("/api", profileRouter);
 connectDB()
   .then(() => {
     console.log("Database connection established...");
