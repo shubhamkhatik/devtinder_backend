@@ -3,6 +3,7 @@ const { userAuth } = require("../middleware/userAuth");
 const { validateEditProfileData } = require("../utils/validation");
 const profileRouter = express.Router();
 const validator = require("validator");
+const User = require("../models/user.model");
 
 profileRouter.get("/profile/view", userAuth, async (req, res) => {
   try {
@@ -28,6 +29,7 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
 
       // Check if the email is already taken by another user
       const emailExists = await User.findOne({ emailId });
+      console.log("find", emailExists);
       if (
         emailExists &&
         emailExists._id.toString() !== req.user._id.toString()
@@ -51,11 +53,9 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
       data: loggedInUser,
     });
   } catch (err) {
-    console.error("Error updating profile:", err);
-
     // Handle duplicate key error (race conditions)
-    if (err.code === 11000 && err.keyPattern && err.keyPattern.emailId) {
-      return res.status(400).send("Email is already in use");
+    if (err.code === 11000 && err.keyPattern) {
+      return res.status(400).send("Email is already exist");
     }
 
     res.status(500).json({

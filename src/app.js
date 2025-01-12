@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
+const requestRouter = require("./routes/request");
 
 
 app.use(express.json());
@@ -13,6 +14,7 @@ app.use(cookieParser());
 
 app.use("/api", authRouter);
 app.use("/api", profileRouter);
+app.use('/api',requestRouter)
 connectDB()
   .then(() => {
     console.log("Database connection established...");
