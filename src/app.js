@@ -8,6 +8,7 @@ const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const authMeRouter = require("./routes/authMe");
+const userRouter = require("./routes/user");
 
 
 app.use(express.json());
@@ -22,6 +23,7 @@ app.use("/api", authRouter);
 app.use("/api", profileRouter);
 app.use('/api',requestRouter)
 app.use('/api',authMeRouter);
+app.use('/api',userRouter);
 connectDB()
   .then(() => {
     console.log("Database connection established...");
