@@ -1,7 +1,7 @@
 const express = require("express");
 const userRouter = express.Router();
 
-const { userAuth } = require("../middlewares/auth");
+const { userAuth } = require("../middleware/userAuth");
 const ConnectionRequest = require("../models/connection.model");
 const User = require("../models/user.model");
 
@@ -83,7 +83,7 @@ userRouter.get("/feed", userAuth, async (req, res) => {
       .skip(skip)
       .limit(limit);
 
-    res.json({ data: users });
+    res.json({message: "feed fetched successfully", data: users });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
