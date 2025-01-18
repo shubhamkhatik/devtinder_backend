@@ -60,6 +60,7 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
 userRouter.get("/feed", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
+    console.log("loggedInUser", loggedInUser);
 
     const page = parseInt(req.query.page) || 1;
     let limit = parseInt(req.query.limit) || 10;
@@ -77,13 +78,16 @@ userRouter.get("/feed", userAuth, async (req, res) => {
     });
 
     const users = await User.find({
-      _id: { $nin: Array.from(hideUsersFromFeed) },
+      $and: [
+        { _id: { $nin: Array.from(hideUsersFromFeed) } },
+        { _id: { $ne: loggedInUser._id } }, //for new user,hideUsersFromFeed is empty
+      ],
     })
       .select(USER_SAFE_DATA)
       .skip(skip)
       .limit(limit);
 
-    res.json({message: "feed fetched successfully", data: users });
+    res.json({ message: "feed fetched successfully", data: users });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

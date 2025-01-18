@@ -5,7 +5,7 @@ const userAuth = async (req, res, next) => {
   try {
     const { token } = req.cookies;
     if (!token) {
-      return res.status(401).send("Please Login!");
+      return res.status(401).json({ ERROR: "Please Login!" });
     }
 
     const decodedObj = await jwt.verify(token, process.env.JWT_SECRET);
@@ -15,18 +15,20 @@ const userAuth = async (req, res, next) => {
 
     const user = await User.findById(_id);
     if (!user) {
-      throw new Error("User not found");
+      return res.status(401).json({ ERROR: "user not found" });
     }
 
     req.user = user;
+
     next();
+    console.log("12222211", req.user);
   } catch (error) {
     if (error.name === "JsonWebTokenError") {
-        return res.status(401).json("Invalid Token");
-      } else if (error.name === "TokenExpiredError") {
-        return res.status(401).json("Token Expired");
-      }
-    res.status(400).json("ERROR: " + err.message);
+      return res.status(401).json("Invalid Token");
+    } else if (error.name === "TokenExpiredError") {
+      return res.status(401).json("Token Expired");
+    }
+    res.status(400).json("ERROR: " + error.message);
   }
 };
 
