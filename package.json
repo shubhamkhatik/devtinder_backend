@@ -2,7 +2,7 @@
   "name": "devtinder_backend",
   "version": "1.0.0",
   "description": "devtinder api",
-  "main": "index.js",
+  "main": "src/app.js",
   "scripts": {
     "start": "node --env-file=.env src/app.js",
     "dev": "nodemon --env-file=.env src/app.js"
