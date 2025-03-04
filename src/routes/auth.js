@@ -74,6 +74,7 @@ authRouter.post("/login", async (req, res) => {
     console.error("Login error:", error);
     res.status(400).json({
       message: "An error occurred during login. Please try again later.",
+      
     });
   }
 });

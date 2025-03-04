@@ -40,7 +40,6 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
       .populate("fromUserId", USER_SAFE_DATA)
       .populate("toUserId", USER_SAFE_DATA);
 
-    console.log(connectionRequests);
 
     const data = connectionRequests.map((row) => {
       //if in all request, if iam in fromUserId then return toUserId and vice versa
@@ -60,7 +59,6 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
 userRouter.get("/feed", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
-    console.log("loggedInUser", loggedInUser);
 
     const page = parseInt(req.query.page) || 1;
     let limit = parseInt(req.query.limit) || 10;

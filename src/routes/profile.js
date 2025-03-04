@@ -29,7 +29,6 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
 
       // Check if the email is already taken by another user
       const emailExists = await User.findOne({ emailId });
-      console.log("find", emailExists);
       if (
         emailExists &&
         emailExists._id.toString() !== req.user._id.toString()
