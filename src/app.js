@@ -14,7 +14,7 @@ const userRouter = require("./routes/user");
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://your-frontend-domain.com'],
+  origin: ['http://localhost:5173', 'https://devtinder-frontend-pearl.vercel.app','https://devtinder-frontend-git-main-shubhamkhatiks-projects.vercel.app','https://devtinder-frontend-shubhamkhatiks-projects.vercel.app'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
