@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const connectDB = require("./config/database");
-const PORT=process.env.PORT;
+const PORT=process.env.PORT || 5452;
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const authRouter = require("./routes/auth");
@@ -9,6 +9,9 @@ const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const authMeRouter = require("./routes/authMe");
 const userRouter = require("./routes/user");
+const chatRouter = require("./routes/chat");
+const http = require("http");
+const initializeSocket = require("./utils/socket");
 
 
 app.use(express.json());
@@ -21,15 +24,18 @@ app.use(cors({
 }));
 
 
-app.use("/api", authRouter);
-app.use("/api", profileRouter);
-app.use('/api',requestRouter)
-app.use('/api',authMeRouter);
-app.use('/api',userRouter);
+app.use("/", authRouter);
+app.use("/", profileRouter);
+app.use('/',requestRouter)
+app.use('/',authMeRouter);
+app.use('/',userRouter);
+app.use('/',chatRouter);
+const httpServer  = http.createServer(app);
+initializeSocket(httpServer);
+
 connectDB()
   .then(() => {
-    console.log("Database connection established...");
-    app.listen(PORT, () => {
+    httpServer.listen(PORT, () => {
       console.log("Server is successfully listening on port..."+PORT);
     });
   })
