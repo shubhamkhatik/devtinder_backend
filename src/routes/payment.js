@@ -105,6 +105,8 @@ paymentRouter.post("/payment/webhook", async (req, res) => {
 
 paymentRouter.get("/premium/verify", userAuth, async (req, res) => {
   const user = req.user.toJSON();
+  //  req.user is a Mongoose document, not a plain JavaScript object
+  // always use toJSON() or toObject() when you want a plain object for logging or sending as a response
   console.log(user);
   if (user.isPremium) {
     return res.json({ ...user });
