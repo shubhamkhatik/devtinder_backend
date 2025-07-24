@@ -30,7 +30,6 @@ const initializeSocket = (httpServer) => {
         // Save messages to the database
         try {
           const roomId = getSecretRoomId(userId, targetUserId);
-          // console.log(firstName + " " + text);
 
           // TODO: Check if userId & targetUserId are friends
           const areUsersFriends = async (userId, targetUserId) => {
